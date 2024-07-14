@@ -23,6 +23,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { INITIAL_SORT, useFilmSortContent, useSort, useSortDispatch } from "./filters-context";
 import { GenresType } from "./type";
 import { FILTERS_PANEL_MAIN_STYLE, FILTERS_PANEL_STYLES, FILTERS_PANEL_TOP_STYLES } from "./styles";
+import { INITIAL_FILMS, useFilms, useFilmsDispatch } from "../films-card/films-context";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -32,18 +33,19 @@ function valuetext(value: number) {
   }
 
 export default function FiltersPanel(){
-
-    const dispatch = useSortDispatch() ?? (() => {});
+    const sortDispatch = useSortDispatch() ?? (() => {});
     const sort = useSort() ?? INITIAL_SORT;
     const filmSort = useFilmSortContent() ?? [];
+    const filmsContext = useFilms() ?? INITIAL_FILMS;
+    const filmsDispatch = useFilmsDispatch() ?? (() => {});
     const [selectedGenres, setSelectedGenres] = useState<GenresType[]>(sort.genres);
 
     const handleChangeCriteria = (event: SelectChangeEvent<string>) => {
-        dispatch({ type: 'CRITERIA', criteria: event.target.value });
+        sortDispatch({ type: 'CRITERIA', criteria: event.target.value });
     };
 
     const handleChangeYear = (event: Event, newValue: number | number[]) => {
-        dispatch({ type: 'YEAR', year: newValue as number[] });
+        sortDispatch({ type: 'YEAR', year: newValue as number[] });
     };
 
     const handleGenresChange = (event: React.ChangeEvent<{}>, value: GenresType[]) => {
@@ -52,11 +54,11 @@ export default function FiltersPanel(){
             checked: value.some(selectedGenre => selectedGenre.id === genre.id)
         }));
         setSelectedGenres(updatedGenres.filter(genre => genre.checked));
-        dispatch({ type: 'GENRES', genres: updatedGenres });
+        sortDispatch({ type: 'GENRES', genres: updatedGenres });
     };
 
     const sortReset = () => {
-        dispatch({
+        sortDispatch({
             type: 'RESET_SORT',
             initialCriteria: INITIAL_SORT.criteria,
             initialYear: INITIAL_SORT.year,
@@ -65,6 +67,9 @@ export default function FiltersPanel(){
         setSelectedGenres(INITIAL_SORT.genres); 
     }
 
+    const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        filmsDispatch({ type: 'SET_CURRENT_PAGE', currentPage: value });
+    };
 
     return(
         <Box sx={FILTERS_PANEL_STYLES}>
@@ -145,7 +150,10 @@ export default function FiltersPanel(){
                     />
                 </Box>
                 <Stack sx={{ width: '100%' }}>
-                    <Pagination count={10} color="primary" />
+                    <Pagination 
+                        count={filmsContext.totalPage} 
+                        page={filmsContext.currentPage} 
+                        onChange={handlePageChange} color="primary" />
                 </Stack>
             </Paper>
         </Box>

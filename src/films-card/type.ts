@@ -7,6 +7,8 @@ type FilmType = {
 
 type InitiaFilmsType = {
     films: FilmType[];
+    totalPage: number;
+    currentPage: number;
 }
 
 export { FilmType, InitiaFilmsType };

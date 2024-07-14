@@ -6,8 +6,6 @@ import { MAIN_CONTAINER_STYLES } from './styles';
 import SignupForm from '../modal-forms/signup-from';
 import FiltersPanel from '../filters-panel/filters-panel';
 import { FiltersProvider } from '../filters-panel/filters-context';
-import FilmsCard from '../films-card/films-card';
-import { CARDS_MOCK } from '../films-card/data';
 import { FilmsProvider } from '../films-card/films-context';
 import FilmsCardList from '../films-card/films-card-list';
 
@@ -36,8 +34,8 @@ export default function MainPage(){
                 }}
             >    
                 <FiltersProvider>
-                    <FiltersPanel/>
                     <FilmsProvider>
+                        <FiltersPanel/>
                         <FilmsCardList/>
                     </FilmsProvider>
                 </FiltersProvider>

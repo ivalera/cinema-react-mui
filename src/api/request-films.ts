@@ -1,20 +1,31 @@
-import axios from 'axios';
+import axios, { CancelTokenSource } from 'axios';
 import { MOVIE_POPULAR, MOVIE_TOKEN } from './constants';
 
-const options = {
-    method: 'GET',
-    headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${MOVIE_TOKEN}`
-    },
-  };
+let cancelTokenSource: CancelTokenSource | null = null;
 
-async function getFilmsRequest(sortType: string) {
+async function getFilmsRequest(sortType: string, page: number) {
+    if (cancelTokenSource) {
+        cancelTokenSource.cancel('Отмена предыдущего запроса');
+    }
+    cancelTokenSource = axios.CancelToken.source();
+
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${MOVIE_TOKEN}`
+        },
+        cancelToken: cancelTokenSource.token
+    };
     try {
-        const request = await axios.get(MOVIE_POPULAR + `${sortType}?language=ru-RU` + `&page=1`, options);
-        return request.data.results;
+        const request = await axios.get(MOVIE_POPULAR + `${sortType}?language=ru-RU` + `&page=${page}`, options);
+        return request.data;
     } catch (error) {
-        console.error(error);
+        if (axios.isCancel(error)) {
+            console.log('Запрос отменен:', error.message);
+        } else {
+            console.error(error);
+        }
         return [];
     }    
 }
