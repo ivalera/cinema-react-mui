@@ -9,6 +9,7 @@ type InitiaFilmsType = {
     films: FilmType[];
     totalPage: number;
     currentPage: number;
+    loading: boolean;
 }
 
 export { FilmType, InitiaFilmsType };

@@ -18,12 +18,18 @@ interface FilmsCurrentPageAction {
     currentPage: number;
 }
 
-type Action = FilmsAction | FilmsTotalPageAction | FilmsCurrentPageAction;
+interface FilmsLoadingAction {
+    type: 'SET_LOADING';
+    loading: boolean;
+}
+
+type Action = FilmsAction | FilmsTotalPageAction | FilmsCurrentPageAction | FilmsLoadingAction;
 
 const INITIAL_FILMS: InitiaFilmsType = {
     films: [],
     totalPage: 1,
-    currentPage: 1
+    currentPage: 1,
+    loading: false
 };
 
 const FilmsContext = createContext<InitiaFilmsType>(INITIAL_FILMS);
@@ -37,6 +43,7 @@ function FilmsProvider({ children }: { children: React.ReactNode }) {
         let isMounted = true;
 
         async function fetchFilms() {
+            dispatch({ type: 'SET_LOADING', loading: true });
             try {
                 const films = await getFilmsRequest(sort.criteria, state.currentPage);
                 if (isMounted) {
@@ -45,6 +52,10 @@ function FilmsProvider({ children }: { children: React.ReactNode }) {
                 }
             } catch (error) {
                 console.error(error);
+            } finally {
+                if (isMounted) {
+                    dispatch({ type: 'SET_LOADING', loading: false });
+                }
             }
         }
 
@@ -89,6 +100,11 @@ function filmsReducer(state: InitiaFilmsType, action: Action) {
             return { 
                 ...state, 
                 currentPage: action.currentPage 
+            };
+        case 'SET_LOADING':
+            return { 
+                ...state, 
+                loading: action.loading 
             };
         default:
             return state;
