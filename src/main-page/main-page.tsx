@@ -46,7 +46,7 @@ export default function MainPage(){
                         marginRight: 1,
                     }}> 
                     {CARDS_MOCK.map((card, index) => (
-                        <Box key={index} sx={{ flex: '100 2 296px '}}>
+                        <Box key={index} sx={{ flex: '1 0 296px '}}>
                             <FilmsCard card={card} />
                         </Box>
                     ))}
