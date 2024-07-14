@@ -151,7 +151,7 @@ export default function FiltersPanel(){
                 </Box>
                 <Stack sx={{ width: '100%' }}>
                     <Pagination 
-                        count={filmsContext.totalPage} 
+                        count={filmsContext.totalPage - 44600} 
                         page={filmsContext.currentPage} 
                         onChange={handlePageChange} color="primary" />
                 </Stack>
