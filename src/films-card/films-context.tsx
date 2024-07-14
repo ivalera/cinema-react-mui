@@ -41,7 +41,7 @@ function FilmsProvider({ children }: { children: React.ReactNode }) {
                 const films = await getFilmsRequest(sort.criteria, state.currentPage);
                 if (isMounted) {
                     dispatch({ type: 'FILMS', films: films.results });
-                    dispatch({ type: 'FILMS_TOTAL_PAGE', totalPage: films.total_pages }); 
+                    dispatch({ type: 'FILMS_TOTAL_PAGE', totalPage: Math.min(films.total_pages, 350) }); 
                 }
             } catch (error) {
                 console.error(error);
