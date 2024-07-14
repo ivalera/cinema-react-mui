@@ -8,6 +8,8 @@ import FiltersPanel from '../filters-panel/filters-panel';
 import { FiltersProvider } from '../filters-panel/filters-context';
 import FilmsCard from '../films-card/films-card';
 import { CARDS_MOCK } from '../films-card/data';
+import { FilmsProvider } from '../films-card/films-context';
+import FilmsCardList from '../films-card/films-card-list';
 
 export default function MainPage(){
     const [openSignup, setOpenSignup] = useState(false);
@@ -35,22 +37,10 @@ export default function MainPage(){
             >    
                 <FiltersProvider>
                     <FiltersPanel/>
+                    <FilmsProvider>
+                        <FilmsCardList/>
+                    </FilmsProvider>
                 </FiltersProvider>
-                <Box 
-                    sx={{
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        maxWidth: 'calc(100% - 430px)',
-                        p: 1,
-                        gap: 1,
-                        marginRight: 1,
-                    }}> 
-                    {CARDS_MOCK.map((card, index) => (
-                        <Box key={index} sx={{ flex: '1 0 296px '}}>
-                            <FilmsCard card={card} />
-                        </Box>
-                    ))}
-                </Box>
             </Box>
         </Container>
     )

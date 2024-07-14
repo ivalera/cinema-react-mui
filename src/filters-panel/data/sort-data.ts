@@ -6,8 +6,7 @@ type FilmSelectType = {
 
 const FILM_CRTITERIAS: FilmSelectType[] = [
     {id: 1, value: 'popular', label: 'Популярности' },
-    {id: 2, value: 'year', label: 'Году' },
-    {id: 3, value: 'rating', label: 'Рейтингу' },
+    {id: 2, value: 'top_rated', label: 'Рейтингу' },
 ];
 
 const FILM_YEARS: FilmSelectType[] = [

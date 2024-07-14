@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, Dispatch, useContext, useEffect, useState } from 'react';
+import React, { createContext, useReducer, Dispatch, useContext, useEffect } from 'react';
 import { getGenresRequest } from '../api/request-genres';
 import { GenresType, InitialSortType } from './type';
 import { FilmSelectType, filmSortData } from './data/sort-data';

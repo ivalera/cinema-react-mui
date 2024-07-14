@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardMedia, Typography, Grid, Icon, Box } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 
-export default function FilmsCard ({ card }) {
+export default function FilmsCard ({ film }) {
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <CardMedia
@@ -12,8 +12,8 @@ export default function FilmsCard ({ card }) {
             width: '100%',
             objectFit: 'cover'
         }}
-        image={card.image}
-        alt={card.title}
+        image={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+        alt={film.title}
       />
         <CardContent sx= {{ 
                 display: 'flex',
@@ -27,10 +27,10 @@ export default function FilmsCard ({ card }) {
                 }}
             >
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    {card.title}
+                    {film.title}
                 </Typography>
                 <Typography component="p" color="text.secondary">
-                {card.raiting}
+                Рейтинг {film.vote_average}
                 </Typography>
             </Box>
             <Icon>
