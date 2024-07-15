@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Container } from '@mui/material'
+import { Box, Container, IconButton } from '@mui/material'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useState } from 'react';
 import Header from '../header/header';
 import { MAIN_CONTAINER_STYLES } from './styles';
@@ -10,33 +11,56 @@ import { FilmsProvider } from '../films-card/films-context';
 import FilmsCardList from '../films-card/films-card-list';
 
 export default function MainPage(){
-    const [openSignup, setOpenSignup] = useState(false);
+    const [isOpenSignup, setIsOpenSignup] = useState(false);
+    const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(true);
 
     const onShowSignUp = () => {
-        setOpenSignup(true);
+        setIsOpenSignup(true);
     }
 
     const onCloseSignup = () => {
-        setOpenSignup(false);
+        setIsOpenSignup(false);
+    };
+
+    const toggleFilterPanel = () => {
+        setIsFilterPanelOpen(!isFilterPanelOpen);
     };
 
     return(
         <Container sx={MAIN_CONTAINER_STYLES}>
-            <SignupForm openModal={openSignup} onClose={onCloseSignup}/>
+            <SignupForm openModal={isOpenSignup} onClose={onCloseSignup}/>
             <Header onClick={onShowSignUp}/>
             <Box sx={{ 
-                display: 'flex', 
-                height: 'calc(100vh - 64px)',
-                flexDirection: 'row', 
-                gap: 2, 
-                width: '100%',
-                overflowY: 'auto',
+                    display: 'flex', 
+                    height: 'calc(100vh - 64px)',
+                    flexDirection: 'row', 
+                    gap: 2, 
+                    width: '100%',
+                    overflowY: 'auto',
+                    position: 'relative'
                 }}
             >    
                 <FiltersProvider>
                     <FilmsProvider>
-                        <FiltersPanel/>
-                        <FilmsCardList/>
+                        {isFilterPanelOpen && <FiltersPanel />}
+                        <IconButton 
+                                onClick={toggleFilterPanel} 
+                                sx={{
+                                    position: 'fixed',
+                                    top: '50%',
+                                    left: isFilterPanelOpen ? '340px' : '-4px',
+                                    zIndex: 1,
+                                    transform: isFilterPanelOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                                    transition: 'transform 0.3s, left 0.3s',
+                                    backgroundColor: 'aliceblue',
+                                    '&:hover': {
+                                        backgroundColor: 'lightblue',
+                                    },
+                                }}
+                            >
+                             <ArrowForwardIosIcon />
+                        </IconButton>
+                    <FilmsCardList />
                     </FilmsProvider>
                 </FiltersProvider>
             </Box>

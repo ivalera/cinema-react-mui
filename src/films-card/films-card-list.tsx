@@ -19,10 +19,9 @@ export default function FilmsCardList(){
             sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                maxWidth: 'calc(100% - 430px)',
                 p: 1,
-                gap: 1,
-                marginRight: 1,
+                gap: 2,
+                marginRight: 0.5,
             }}> 
             {films.map((film, index) => (
                 <Box key={index} sx={{ flex: '1 0 296px '}}>

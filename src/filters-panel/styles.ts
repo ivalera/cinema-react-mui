@@ -4,7 +4,6 @@ const FILTERS_PANEL_STYLES = {
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    overflow: 'hidden',
     '& > :not(style)': {
         m: 1,
         p: 2,
@@ -12,7 +11,7 @@ const FILTERS_PANEL_STYLES = {
         flexDirection: 'column',
         gap: 2,
         height: '100%',
-        width: '340px'
+        width: "320px"
     }
 };
 

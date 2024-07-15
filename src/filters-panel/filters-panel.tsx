@@ -16,7 +16,7 @@ import {
     Pagination
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FILM_YEARS } from "./data/sort-data";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -38,7 +38,7 @@ export default function FiltersPanel(){
     const filmSort = useFilmSortContent() ?? [];
     const filmsContext = useFilms() ?? INITIAL_FILMS;
     const filmsDispatch = useFilmsDispatch() ?? (() => {});
-    const [selectedGenres, setSelectedGenres] = useState<GenresType[]>(sort.genres);
+    const [selectedGenres, setSelectedGenres] = useState<GenresType[]>(sort.genres.filter(genre => genre.checked));
 
     const handleChangeCriteria = (event: SelectChangeEvent<string>) => {
         sortDispatch({ type: 'CRITERIA', criteria: event.target.value });
@@ -64,7 +64,7 @@ export default function FiltersPanel(){
             initialYear: INITIAL_SORT.year,
             initialGenres: INITIAL_SORT.genres,
         });
-        setSelectedGenres(INITIAL_SORT.genres); 
+        setSelectedGenres(INITIAL_SORT.genres.filter(genre => genre.checked)); 
     }
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -149,7 +149,7 @@ export default function FiltersPanel(){
                         )}
                     />
                 </Box>
-                <Stack sx={{ width: '100%' }}>
+                <Stack spacing="1" sx={{ width: '100%' }}>
                     <Pagination 
                         count={Math.min(filmsContext.totalPage, 350)}
                         page={filmsContext.currentPage} 
