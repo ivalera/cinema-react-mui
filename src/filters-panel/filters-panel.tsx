@@ -23,7 +23,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { INITIAL_SORT, useFilmSortContent, useSort, useSortDispatch } from "./filters-context";
 import { GenresType } from "./type";
 import { FILTERS_PANEL_MAIN_STYLE, FILTERS_PANEL_STYLES, FILTERS_PANEL_TOP_STYLES } from "./styles";
-import { INITIAL_FILMS, useFilms, useFilmsDispatch } from "../films-card/films-context";
+import { INITIAL_FILMS, useFilms, useFilmsDispatch } from "../films/films-context";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;

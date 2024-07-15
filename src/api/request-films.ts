@@ -1,5 +1,5 @@
 import axios, { CancelTokenSource } from 'axios';
-import { MOVIE_POPULAR, MOVIE_TOKEN } from './constants';
+import { MOVIE_URL, MOVIE_TOKEN } from './constants';
 
 let cancelTokenSource: CancelTokenSource | null = null;
 
@@ -18,7 +18,7 @@ async function getFilmsRequest(sortType: string, page: number) {
         cancelToken: cancelTokenSource.token
     };
     try {
-        const request = await axios.get(MOVIE_POPULAR + `${sortType}?language=ru-RU` + `&page=${page}`, options);
+        const request = await axios.get(MOVIE_URL + `${sortType}?language=ru-RU` + `&page=${page}`, options);
         return request.data;
     } catch (error) {
         if (axios.isCancel(error)) {

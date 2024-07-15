@@ -2,6 +2,7 @@ import React, { createContext, useReducer, useContext, useEffect, Dispatch } fro
 import { FilmType, InitiaFilmsType } from './type';
 import { getFilmsRequest } from '../api/request-films';
 import { INITIAL_SORT, useSort } from '../filters-panel/filters-context';
+import { getFilmDetailsRequest } from '../api/request-film-details';
 
 interface FilmsAction {
     type: 'FILMS';

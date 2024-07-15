@@ -25,7 +25,7 @@ export default function FilmsCardList(){
             }}> 
             {films.map((film, index) => (
                 <Box key={index} sx={{ flex: '1 0 296px '}}>
-                    <FilmsCard film={film} />
+                    <FilmsCard idRoute={film.id} film={film} />
                 </Box>
             ))}
         </Box>
