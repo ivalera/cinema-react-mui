@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, Icon, Box, CircularProgress } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { Link } from 'react-router-dom';
+import { FilmType } from './type';
 
-export default function FilmsCard ({ film, idRoute }) {
+interface FilmCardProps {
+    film : FilmType,
+    idRoute : number
+}
+
+export default function FilmsCard ({ film, idRoute } : FilmCardProps) {
     const [loading, setLoading] = useState(true);
 
     return (
@@ -42,7 +48,7 @@ export default function FilmsCard ({ film, idRoute }) {
                             {film.title}
                         </Typography>
                         <Typography component="p" color="text.secondary">
-                        Рейтинг {film.vote_average}
+                        Рейтинг {film.vote_average.toFixed(1)}
                         </Typography>
                     </Box>
                     <Icon>
