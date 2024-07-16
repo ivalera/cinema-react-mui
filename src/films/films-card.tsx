@@ -32,30 +32,29 @@ export default function FilmsCard ({ film, idRoute } : FilmCardProps) {
                     alt={film.title}
                     onLoad={() => setLoading(false)}
                 />
-                </Link>
-                <CardContent sx= {{ 
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
+            </Link>
+            <CardContent sx= {{ 
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                }}
+            >
+                <Box sx={{ 
+                    display: 'flex',
+                    flexDirection: 'column', 
                     }}
                 >
-                    <Box sx={{ 
-                        display: 'flex',
-                        flexDirection: 'column', 
-                        }}
-                    >
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            {film.title}
-                        </Typography>
-                        <Typography component="p" color="text.secondary">
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        {film.title}
+                    </Typography>
+                    <Typography component="p" color="text.secondary">
                         Рейтинг {film.vote_average.toFixed(1)}
-                        </Typography>
-                    </Box>
-                    <Icon>
-                            <StarIcon />
-                        </Icon>
-                </CardContent>
-            
+                    </Typography>
+                </Box>
+                <Icon>
+                    <StarIcon />
+                </Icon>
+            </CardContent>
         </Card>
     );
-};
+}

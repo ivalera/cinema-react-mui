@@ -8,7 +8,6 @@ import { FilmsProvider } from '../films/films-context';
 import FilmsCardList from '../films/films-card-list';
 
 export default function MainPage(){
-    
     const [isFilterPanelOpen, setIsFilterPanelOpen] = useState(true);
 
     const toggleFilterPanel = () => {
@@ -43,6 +42,9 @@ export default function MainPage(){
                                     '&:hover': {
                                         backgroundColor: 'lightblue',
                                     },
+                                    '@media (min-width: 1441px)': {
+                                        left: isFilterPanelOpen ? '900px' : '550px',
+                                    }
                                 }}
                             >
                              <ArrowForwardIosIcon />
