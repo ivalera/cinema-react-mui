@@ -34,7 +34,7 @@ export default function MainPage(){
                                 sx={{
                                     position: 'fixed',
                                     top: '50%',
-                                    left: isFilterPanelOpen ? '340px' : '-4px',
+                                    left: isFilterPanelOpen ? '386px' : '-4px',
                                     zIndex: 1,
                                     transform: isFilterPanelOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                                     transition: 'transform 0.3s, left 0.3s',
@@ -43,7 +43,7 @@ export default function MainPage(){
                                         backgroundColor: 'lightblue',
                                     },
                                     '@media (min-width: 1441px)': {
-                                        left: isFilterPanelOpen ? '900px' : '550px',
+                                        left: isFilterPanelOpen ? '946px' : '550px',
                                     }
                                 }}
                             >

@@ -11,7 +11,7 @@ const FILTERS_PANEL_STYLES = {
         flexDirection: 'column',
         gap: 2,
         height: '100%',
-        width: "320px"
+        width: "360px"
     }
 };
 

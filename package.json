@@ -2,6 +2,7 @@
   "name": "cinema-react-mui",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://ivalera.github.io/cinema-react-mui",
   "type": "module",
   "scripts": {
     "dev": "vite",
