@@ -3,7 +3,7 @@ const MODAL_STYLE = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '340px',
+    width: '320px',
     bgcolor: 'background.paper',
     borderRadius: 1,
     boxShadow: 24,

@@ -45,10 +45,10 @@ function Root() {
             ) : (
                 <Typography 
                     variant="body1" 
-                    color="textSecondary" textAlign='center' mt='40px'>
+                    color="textSecondary" textAlign='center' m='40px'>
                     Необходимо авторизоваться для доступа к контенту.<br/>
                     Нажмите на иконку, в правом верхнем углу, в шапке.<br/>
-                    Ввведите, любой адрес почты, а так же любой токен, любые символы и нажмите Ок. 
+                    Введите, любой адрес почты, а так же любой токен, любые символы и нажмите Ок. 
                 </Typography>
             )}
         </Container>
