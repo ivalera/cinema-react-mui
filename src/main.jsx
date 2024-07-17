@@ -6,6 +6,7 @@ import ErrorPage from './routes/error-page';
 import FilmInfo from './films/film-info';
 import MainPage from './main-page/main-page'
 import { filmInfoLoader } from './films/film-info-loader.ts';
+import { AuthorizationProvider } from './providers/authorization-context';
 
 const router = createBrowserRouter([
     {
@@ -29,7 +30,9 @@ const router = createBrowserRouter([
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+    <React.StrictMode>
+            <AuthorizationProvider>
+                <RouterProvider router={router} />
+            </AuthorizationProvider>
+    </React.StrictMode>,
 )
