@@ -16,7 +16,7 @@ import {
     Pagination
 } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { FILM_YEARS } from "./data/sort-data";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -39,6 +39,7 @@ export default function FiltersPanel(){
     const filmsContext = useFilms() ?? INITIAL_FILMS;
     const filmsDispatch = useFilmsDispatch() ?? (() => {});
     const [selectedGenres, setSelectedGenres] = useState<GenresType[]>(sort.genres.filter(genre => genre.checked));
+    const [searchQuery, setSearchQuery] = useState(sort.searchQuery);
 
     const handleChangeCriteria = (event: SelectChangeEvent<string>) => {
         sortDispatch({ type: 'CRITERIA', criteria: event.target.value });
@@ -65,11 +66,26 @@ export default function FiltersPanel(){
             initialGenres: INITIAL_SORT.genres,
         });
         setSelectedGenres(INITIAL_SORT.genres.filter(genre => genre.checked)); 
+        setSearchQuery('');
+        sortDispatch({ type: 'SEARCH', searchQuery: '', searchResults: [] });
     }
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-        filmsDispatch({ type: 'SET_CURRENT_PAGE', currentPage: value });
+        if (searchQuery.length >= 2) {
+            sortDispatch({ type: 'SET_CURRENT_PAGE_SEARCH', currentPage: value });
+        } else {
+            filmsDispatch({ type: 'SET_CURRENT_PAGE', currentPage: value });
+        }
     };
+
+    const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const query = event.target.value;
+        setSearchQuery(query);
+        sortDispatch({ type: 'SEARCH', searchQuery: query, searchResults: [] });
+    };
+
+    const totalPage = searchQuery.length >= 2 ? sort.totalPage : filmsContext.totalPage;
+    const currentPage = searchQuery.length >= 2 ? sort.currentPage : filmsContext.currentPage;
 
     return(
         <Box sx={FILTERS_PANEL_STYLES}>
@@ -82,6 +98,15 @@ export default function FiltersPanel(){
                     </IconButton>
                 </Box>
                 <Box sx={FILTERS_PANEL_MAIN_STYLE}>
+                    <TextField
+                        fullWidth
+                        label="Поиск по фильмам"
+                        variant="standard"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        sx={{ marginBottom: 2 }}
+                        placeholder="Введите минимум 2 символа"
+                    />
                     <FormControl 
                         fullWidth
                         variant="standard"
@@ -151,9 +176,10 @@ export default function FiltersPanel(){
                 </Box>
                 <Stack spacing="1" sx={{ width: '100%' }}>
                     <Pagination 
-                        count={Math.min(filmsContext.totalPage, 500)}
-                        page={filmsContext.currentPage} 
-                        onChange={handlePageChange} color="primary" />
+                        count={Math.min(totalPage, 500)}
+                        page={currentPage} 
+                        onChange={handlePageChange} 
+                        color="primary" />
                 </Stack>
             </Paper>
         </Box>

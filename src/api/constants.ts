@@ -3,6 +3,7 @@ const MOVIE_TOKEN="eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjMDdkMWQzOTlkZDQyM2E5ZGNlZjE4
 const MOVIE_URL = "https://api.themoviedb.org/3/movie/";
 const MOVIE_USER_ACCOUNT_ID_URL = "https://api.themoviedb.org/3/account/account_id";
 const MOVIE_FAVORITE_URL =  "https://api.themoviedb.org/3/account/"
+const MOVIE_SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 
 
 export { 
@@ -10,5 +11,6 @@ export {
     MOVIE_TOKEN, 
     MOVIE_URL, 
     MOVIE_USER_ACCOUNT_ID_URL,
-    MOVIE_FAVORITE_URL
+    MOVIE_FAVORITE_URL,
+    MOVIE_SEARCH_URL
 };
