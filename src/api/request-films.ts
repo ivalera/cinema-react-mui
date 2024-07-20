@@ -19,7 +19,6 @@ async function getFilmsRequest(sortType: string, page: number) {
     };
     try {
         const request = await axios.get(MOVIE_URL + `${sortType}?language=ru-RU` + `&page=${page}`, options);
-        console.log(request);
         return request.data;
     } catch (error) {
         if (axios.isCancel(error)) {

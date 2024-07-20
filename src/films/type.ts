@@ -12,6 +12,7 @@ type InitiaFilmsType = {
     totalPage: number;
     currentPage: number;
     loading: boolean;
+    filmsFavorite: FilmType[];
 }
 
 type CountryType = {

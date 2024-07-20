@@ -1,16 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, Icon, Box, CircularProgress } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder'
 import { Link } from 'react-router-dom';
 import { FilmType } from './type';
+import { getChangeFavoriteRequest } from '../api/request-change-favorite';
+import { useAuthorization } from '../providers/authorization-context';
+import { useFilmsDispatch } from './films-context';
 
 interface FilmCardProps {
     film : FilmType,
     idRoute : number
+    filmFavorite: FilmType | null;
 }
 
-export default function FilmsCard ({ film, idRoute } : FilmCardProps) {
+export default function FilmsCard ({ film, idRoute, filmFavorite } : FilmCardProps) {
     const [loading, setLoading] = useState(true);
+    const [isFavorite, setIsFavorite] = useState(!!filmFavorite);
+    const { accountId } = useAuthorization(); 
+    const dispatchFilms = useFilmsDispatch(); 
+
+    useEffect(() => {
+        setIsFavorite(!!filmFavorite);
+    }, [filmFavorite]);
+
+
+    const handleFavoriteClick = async () => {
+        const newFavoriteStatus = !isFavorite;
+        setIsFavorite(newFavoriteStatus);
+
+        try {
+            const response = await getChangeFavoriteRequest(accountId, film.id, !newFavoriteStatus); 
+            if (response.status >= 200 && response.status < 300) {
+                if (dispatchFilms) {
+                    dispatchFilms({ type: 'UPDATE_FAVORITE_FILM', filmId: film.id, isFavorite: newFavoriteStatus });
+                }
+            } else {
+                console.error("Ошибка обновления избранного фильма:", response.status);
+                setIsFavorite(!newFavoriteStatus);
+            }
+        } catch (error) {
+            console.error("Ошибка обновления избранного фильма:", error);
+            setIsFavorite(!newFavoriteStatus);
+        }
+    };
 
     return (
         <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -51,8 +84,11 @@ export default function FilmsCard ({ film, idRoute } : FilmCardProps) {
                         Рейтинг {film.vote_average.toFixed(1)}
                     </Typography>
                 </Box>
-                <Icon>
-                    <StarIcon />
+                <Icon
+                    sx={{ cursor: 'pointer' }} 
+                    onClick={handleFavoriteClick}
+                >
+                    {isFavorite ? <StarIcon /> : <StarBorderIcon />} 
                 </Icon>
             </CardContent>
         </Card>

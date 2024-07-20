@@ -13,7 +13,6 @@ function Root() {
     const [isOpenSignup, setIsOpenSignup] = useState(false);
     const { userToken } = useAuthorization();
     const authorizationDispatch = useAuthorizationDispatch();
-    console.log(userToken);
 
     const onShowSignUp = () => {
         setIsOpenSignup(true);

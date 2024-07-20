@@ -13,7 +13,6 @@ export default function SignupForm({openModal, onClose, onShowLogin}: SignupForm
     const [email, setEmail] = useState('');
     const { isLogin } = useAuthorization() ?? INITIAL_AUTHORIZATION;
     const authorizationDispatch = useAuthorizationDispatch() ?? (() => {});
-    console.log(isLogin)
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -25,6 +24,7 @@ export default function SignupForm({openModal, onClose, onShowLogin}: SignupForm
         if(!email){
             return;
         }
+
         authorizationDispatch({ type: 'IS_LOGIN', isLogin: !isLogin})
         onClose();
         onShowLogin();
