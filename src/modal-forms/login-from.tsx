@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
-import { Modal, Box, Button, TextField, Typography, Snackbar, Alert } from '@mui/material';
 import { BUTTON_WRAPPER_STYLE, MODAL_STYLE } from "./styles";
-import { INITIAL_AUTHORIZATION, useAuthorization, useAuthorizationDispatch } from "../providers/authorization-context";
+import { Modal, Box, Button, TextField, Typography, Snackbar, Alert } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, setUserToken, setAccountId, setIsLogin } from "../store/strore";
 import { getAccountId } from "../api/request-account-id";
 import Cookies from "js-cookie";
 
@@ -9,49 +10,45 @@ interface LoginFormProps {
     onClose: () => void;
 }
 
-export default function LoginForm({ onClose }: LoginFormProps) {
+const LoginForm: React.FC<LoginFormProps> = ({ onClose }) => {
     const [token, setToken] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const { isLogin } = useAuthorization() ?? INITIAL_AUTHORIZATION;
-    const authorizationDispatch = useAuthorizationDispatch() ?? (() => {});
+    const isLogin = useSelector((state: RootState) => state.authorization.isLogin);
+    const dispatch = useDispatch();
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setToken(event.target.value);
-    }
+    };
 
     const handleCancel = () => {
-        authorizationDispatch({ type: 'IS_LOGIN', isLogin: false });
+        dispatch(setIsLogin(false));
         onClose();
-    }
-    
+    };
+
     const getAccountIdRequest = async () => {
         try {
             const accountId = await getAccountId();
-            authorizationDispatch({ type: 'SET_ACCOUNT_ID', accountId: accountId });
+            dispatch(setAccountId(accountId));
             Cookies.set('accountId', accountId.toString(), { expires: 3 });
         } catch (error) {
             console.error(error);
         }
-    }
+    };
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if(!token){
-            return;
-        }
-        
-        getAccountIdRequest();
-        authorizationDispatch({ type: 'SET_USER_TOKEN', userToken: token })
-        authorizationDispatch({ type: 'IS_LOGIN', isLogin: false });
+        if (!token) return;
+
+        await getAccountIdRequest();
+        dispatch(setUserToken(token));
+        dispatch(setIsLogin(false));
         onClose();
         setOpenSnackbar(true);
     };
 
     const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+        if (reason === 'clickaway') return;
         setOpenSnackbar(false);
     };
 
@@ -61,13 +58,13 @@ export default function LoginForm({ onClose }: LoginFormProps) {
                 open={isLogin}
                 onClose={handleCancel}
             >
-                <Box 
-                    component="form" 
+                <Box
+                    component="form"
                     onSubmit={onSubmit}
                     sx={MODAL_STYLE}
-                    >
-                    <Typography 
-                        variant="h6" 
+                >
+                    <Typography
+                        variant="h6"
                         marginBottom="20px"
                     >
                         Введите токен
@@ -81,37 +78,28 @@ export default function LoginForm({ onClose }: LoginFormProps) {
                         type="text"
                         onChange={onChange}
                     />
-                    <Box
-                        sx={BUTTON_WRAPPER_STYLE}>
-                        <Button
-                            onClick={handleCancel}
-                            variant="text"
-                            color="primary"
-                        >
+                    <Box sx={BUTTON_WRAPPER_STYLE}>
+                        <Button onClick={handleCancel} variant="text" color="primary">
                             Отменить
                         </Button>
-                        <Button
-                            type="submit"
-                            variant="text"
-                            color="primary"
-                        >
+                        <Button type="submit" variant="text" color="primary">
                             Ок
                         </Button>
                     </Box>
                 </Box>
             </Modal>
-            <Snackbar 
-                open={openSnackbar} 
-                autoHideDuration={6000} 
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={6000}
                 onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-                    <Alert 
-                        onClose={handleCloseSnackbar} 
-                        severity="success" 
-                        sx={{ width: '100%' }}>
-                        Токен подошел!
-                    </Alert>
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            >
+                <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+                    Токен подошел!
+                </Alert>
             </Snackbar>
         </Box>
     );
-}
+};
+
+export default LoginForm;

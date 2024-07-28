@@ -1,7 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
-import { Modal, Box, Button, TextField, Typography } from '@mui/material';
 import { BUTTON_WRAPPER_STYLE, MODAL_STYLE } from "./styles";
-import { INITIAL_AUTHORIZATION, useAuthorization, useAuthorizationDispatch } from "../providers/authorization-context";
+import { Modal, Box, Button, TextField, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, setIsLogin } from "../store/strore";
 
 interface SignupFormProps {
     openModal: boolean;
@@ -9,23 +10,21 @@ interface SignupFormProps {
     onShowLogin: () => void;
 }
 
-export default function SignupForm({openModal, onClose, onShowLogin}: SignupFormProps) {
+const SignupForm: React.FC<SignupFormProps> = ({ openModal, onClose, onShowLogin }) => {
     const [email, setEmail] = useState('');
-    const { isLogin } = useAuthorization() ?? INITIAL_AUTHORIZATION;
-    const authorizationDispatch = useAuthorizationDispatch() ?? (() => {});
+    const isLogin = useSelector((state: RootState) => state.authorization.isLogin);
+    const dispatch = useDispatch();
 
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
-    }
+    };
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if(!email){
-            return;
-        }
+        if (!email) return;
 
-        authorizationDispatch({ type: 'IS_LOGIN', isLogin: !isLogin})
+        dispatch(setIsLogin(!isLogin));
         onClose();
         onShowLogin();
     };
@@ -36,13 +35,13 @@ export default function SignupForm({openModal, onClose, onShowLogin}: SignupForm
                 open={openModal}
                 onClose={onClose}
             >
-                <Box 
-                    component="form" 
+                <Box
+                    component="form"
                     onSubmit={onSubmit}
                     sx={MODAL_STYLE}
-                    >
-                    <Typography 
-                        variant="h6" 
+                >
+                    <Typography
+                        variant="h6"
                         marginBottom="20px"
                     >
                         Запросить токен
@@ -56,25 +55,18 @@ export default function SignupForm({openModal, onClose, onShowLogin}: SignupForm
                         type="email"
                         onChange={onChange}
                     />
-                    <Box
-                        sx={BUTTON_WRAPPER_STYLE}>
-                        <Button
-                            onClick={onClose}
-                            variant="text"
-                            color="primary"
-                        >
+                    <Box sx={BUTTON_WRAPPER_STYLE}>
+                        <Button onClick={onClose} variant="text" color="primary">
                             Отменить
                         </Button>
-                        <Button
-                            type="submit"
-                            variant="text"
-                            color="primary"
-                        >
+                        <Button type="submit" variant="text" color="primary">
                             Запросить
                         </Button>
                     </Box>
                 </Box>
             </Modal>
         </Box>
-  );
-}
+    );
+};
+
+export default SignupForm;

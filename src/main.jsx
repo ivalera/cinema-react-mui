@@ -6,7 +6,9 @@ import ErrorPage from './routes/error-page';
 import FilmInfo from './films/film-info';
 import MainPage from './main-page/main-page'
 import { filmInfoLoader } from './films/film-info-loader.ts';
-import { AuthorizationProvider } from './providers/authorization-context';
+import { Provider } from 'react-redux';
+import store from './store/strore';
+
 
 const router = createBrowserRouter([
     {
@@ -31,8 +33,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-            <AuthorizationProvider>
+            <Provider store={store}>
                 <RouterProvider router={router} />
-            </AuthorizationProvider>
+            </Provider>
     </React.StrictMode>,
-)
+);

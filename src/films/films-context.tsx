@@ -3,7 +3,8 @@ import { FilmType, InitiaFilmsType } from './type';
 import { getFilmsRequest } from '../api/request-films';
 import { INITIAL_SORT, useSort } from '../filters-panel/filters-context';
 import { getFilmsFavoriteRequest } from '../api/requset-films-favorite';
-import { useAuthorization } from '../providers/authorization-context';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/strore';
 
 interface FilmsAction {
     type: 'FILMS';
@@ -57,7 +58,7 @@ const FilmsDispatchContext = createContext<Dispatch<Action> | null>(null);
 function FilmsProvider({ children }: { children: React.ReactNode }) {
     const [state, dispatch] = useReducer(filmsReducer, INITIAL_FILMS);
     const sort = useSort() ?? INITIAL_SORT;
-    const { accountId } = useAuthorization(); 
+    const accountId = useSelector((state: RootState) => state.authorization.accountId);
 
     useEffect(() => {
         async function fetchFilmsFavorite() {

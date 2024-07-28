@@ -1,33 +1,37 @@
-import './root.css'
-import SignUpForm from './modal-forms/signup-from'
+import './root.css';
+import SignUpForm from './modal-forms/signup-from';
 import LoginForm from './modal-forms/login-from';
-import Header from './header/header'
+import Header from './header/header';
 import { Container, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { MAIN_CONTAINER_STYLES } from './main-page/styles';
-import { useAuthorization, useAuthorizationDispatch } from './providers/authorization-context';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsLogin, loadFromCookies } from './store/strore';
 
 function Root() {
-    const [isOpenSignup, setIsOpenSignup] = useState(false);
-    const { userToken } = useAuthorization();
-    const authorizationDispatch = useAuthorizationDispatch();
+    const [isOpenSignup, setIsOpenSignup] = React.useState(false);
+    const dispatch = useDispatch();
+    const { userToken } = useSelector((state) => state.authorization);
+
+    useEffect(() => {
+        dispatch(loadFromCookies());
+    }, [dispatch]);
 
     const onShowSignUp = () => {
         setIsOpenSignup(true);
-    }
+    };
 
     const onCloseSignup = () => {
         setIsOpenSignup(false);
     };
 
     const onShowLogin = () => {
-        authorizationDispatch({ type: 'IS_LOGIN', isLogin: true });
+        dispatch(setIsLogin(true));
     };
 
     const onCloseLogin = () => {
-        authorizationDispatch({ type: 'IS_LOGIN', isLogin: false });
+        dispatch(setIsLogin(false));
     };
 
     return (
@@ -44,14 +48,16 @@ function Root() {
             ) : (
                 <Typography 
                     variant="body1" 
-                    color="textSecondary" textAlign='center' m='40px'>
+                    color="textSecondary" 
+                    textAlign='center' 
+                    m='40px'>
                     Необходимо авторизоваться для доступа к контенту.<br/>
                     Нажмите на иконку, в правом верхнем углу, в шапке.<br/>
                     Введите, любой адрес почты, а так же любой токен, любые символы и нажмите Ок. 
                 </Typography>
             )}
         </Container>
-    )
+    );
 }
 
-export default Root
+export default Root;

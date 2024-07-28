@@ -5,9 +5,10 @@ import StarBorderIcon from '@mui/icons-material/StarBorder'
 import { Link } from 'react-router-dom';
 import { FilmType } from './type';
 import { getChangeFavoriteRequest } from '../api/request-change-favorite';
-import { useAuthorization } from '../providers/authorization-context';
 import { useFilmsDispatch } from './films-context';
 import useSnackbar from './snackbar-alert';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/strore';
 
 interface FilmCardProps {
     film : FilmType,
@@ -19,7 +20,7 @@ interface FilmCardProps {
 export default function FilmsCard ({ film, idRoute, filmFavorite } : FilmCardProps) {
     const [loading, setLoading] = useState(true);
     const [isFavorite, setIsFavorite] = useState(!!filmFavorite);
-    const { accountId } = useAuthorization(); 
+    const accountId = useSelector((state: RootState) => state.authorization.accountId);
     const dispatchFilms = useFilmsDispatch(); 
     const { showSnackbar, SnackbarComponent } = useSnackbar();
 
