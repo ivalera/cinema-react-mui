@@ -13,6 +13,7 @@ async function getFilmsFavoriteRequest(id: number) {
     };
     try {
         const request = await axios.get(MOVIE_FAVORITE_URL + `${id}`+`/favorite/movies`, options);
+        console.log(request.data.results);
         return request.data.results;
     } catch (error) {
         console.error(error);

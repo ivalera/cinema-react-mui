@@ -1,4 +1,4 @@
-import { createSlice, configureStore, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
 interface AuthorizationState {
@@ -41,13 +41,5 @@ const authorizationSlice = createSlice({
     },
 });
 
-const store = configureStore({
-    reducer: {
-        authorization: authorizationSlice.reducer,
-    },
-});
-
 export const { setUserToken, setIsLogin, setAccountId, loadFromCookies } = authorizationSlice.actions;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export default store;
+export default authorizationSlice.reducer;

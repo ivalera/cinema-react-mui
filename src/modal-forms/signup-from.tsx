@@ -2,7 +2,8 @@ import React, { ChangeEvent, useState } from "react";
 import { BUTTON_WRAPPER_STYLE, MODAL_STYLE } from "./styles";
 import { Modal, Box, Button, TextField, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, setIsLogin } from "../store/strore";
+import { RootState } from "../store/store";
+import { setIsLogin } from "../store/authorizationSlice";
 
 interface SignupFormProps {
     openModal: boolean;

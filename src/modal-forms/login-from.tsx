@@ -2,9 +2,10 @@ import React, { ChangeEvent, useState } from "react";
 import { BUTTON_WRAPPER_STYLE, MODAL_STYLE } from "./styles";
 import { Modal, Box, Button, TextField, Typography, Snackbar, Alert } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, setUserToken, setAccountId, setIsLogin } from "../store/strore";
+import { RootState } from "../store/store";
 import { getAccountId } from "../api/request-account-id";
 import Cookies from "js-cookie";
+import { setAccountId, setIsLogin, setUserToken } from "../store/authorizationSlice";
 
 interface LoginFormProps {
     onClose: () => void;

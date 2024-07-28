@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { MAIN_CONTAINER_STYLES } from './main-page/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsLogin, loadFromCookies } from './store/strore';
+import { setIsLogin, loadFromCookies } from './store/authorizationSlice';
 
 function Root() {
     const [isOpenSignup, setIsOpenSignup] = React.useState(false);

@@ -7,7 +7,7 @@ import FilmInfo from './films/film-info';
 import MainPage from './main-page/main-page'
 import { filmInfoLoader } from './films/film-info-loader.ts';
 import { Provider } from 'react-redux';
-import store from './store/strore';
+import store from './store/store';
 
 
 const router = createBrowserRouter([

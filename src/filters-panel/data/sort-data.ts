@@ -4,7 +4,7 @@ type FilmSelectType = {
   label: string;
 };
 
-const FILM_CRTITERIAS: FilmSelectType[] = [
+const FILM_CRITERIAS: FilmSelectType[] = [
     {id: 1, value: 'popular', label: 'Популярности' },
     {id: 2, value: 'top_rated', label: 'Рейтингу' },
 ];
@@ -28,6 +28,6 @@ const FILM_YEARS: FilmSelectType[] = [
     {id: 15, value: '2013', label: '2013' },
 ]
 
-const filmSortData = {FILM_CRTITERIAS, FILM_YEARS};
+const filmSortData = {FILM_CRITERIAS, FILM_YEARS};
 
-export { FilmSelectType, FILM_CRTITERIAS, FILM_YEARS, filmSortData };
+export { FilmSelectType, FILM_CRITERIAS, FILM_YEARS, filmSortData };
